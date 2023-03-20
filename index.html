@@ -5,8 +5,24 @@
 <script>
   var video = document.getElementById("myVideo");
   //按0键选择要播放的本地视频
+  function toggleFullScreen() {
+
+  if (!document.fullscreenElement) {
+
+      document.documentElement.requestFullscreen();
+
+  } else {
+
+    if (document.exitFullscreen) {
+
+      document.exitFullscreen(); 
+
+    }
+
+    //fullscreen
   document.addEventListener("keydown", function(event) {
     if (event.keyCode == 48) {
+      toggleFullScreen();
       var input = document.createElement("input");
       input.type = "file";
       input.accept = "video/*";
