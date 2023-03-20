@@ -69,4 +69,15 @@
     video.height = h;
   });
 </script>
-
+<button id="fullscreen-btn">全屏</button>
+<script>
+  var btn = document.getElementById("fullscreen-btn");
+  btn.addEventListener("click", function() {
+    document.documentElement.requestFullscreen();
+  });
+</script>
+<style>
+  .rotate-video {
+  transform: rotate(90deg);
+}
+  </style>
