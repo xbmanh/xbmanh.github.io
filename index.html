@@ -1,0 +1,72 @@
+<video id="myVideo" width="320" height="240">
+  <source src="" type="video/mp4">
+  您的浏览器不支持HTML5视频。
+</video>
+<script>
+  var video = document.getElementById("myVideo");
+  //按0键选择要播放的本地视频
+  document.addEventListener("keydown", function(event) {
+    if (event.keyCode == 48) {
+      var input = document.createElement("input");
+      input.type = "file";
+      input.accept = "video/*";
+      input.onchange = function() {
+        var file = this.files[0];
+        var url = URL.createObjectURL(file);
+        video.src = url;
+        video.play();
+      };
+      input.click();
+    }
+  });
+  //可以用方向键控制视频画面的移动
+  document.addEventListener("keydown", function(event) {
+    var x = video.offsetLeft;
+    var y = video.offsetTop;
+    switch (event.keyCode) {
+      case 37: //左键
+        x -= 10;
+        break;
+      case 38: //上键
+        y -= 10;
+        break;
+      case 39: //右键
+        x += 10;
+        break;
+      case 40: //下键
+        y += 10;
+        break;
+    }
+    video.style.left = x + "px";
+    video.style.top = y + "px";
+  });
+    //按7,9键分别后退和快进15秒
+  document.addEventListener("keydown", function(event) {
+    switch (event.keyCode) {
+      case 55: //7键
+        video.currentTime -= 15;
+        break;
+      case 57: //9键
+        video.currentTime += 15;
+        break;
+    }
+  });
+  //按4,6键分别控制缩小和放大视频画面
+  document.addEventListener("keydown", function(event) {
+    var w = video.width;
+    var h = video.height;
+    switch (event.keyCode) {
+      case 52: //4键
+        w -= 10;
+        h -= 10 * h / w;
+        break;
+      case 54: //6键
+        w += 10;
+        h += 10 * h / w;
+        break;
+    }
+    video.width = w;
+    video.height = h;
+  });
+</script>
+
