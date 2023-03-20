@@ -40,6 +40,15 @@
     video.style.left = x + "px";
     video.style.top = y + "px";
   });
+  // 按5键控制播放和暂停
+    if (event.keyCode == 53) { // 数字5键
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+  });
     //按7,9键分别后退和快进15秒
   document.addEventListener("keydown", function(event) {
     switch (event.keyCode) {
