@@ -3,6 +3,7 @@
   您的浏览器不支持HTML5视频。
 </video>
 <script>
+      toggleFullScreen();
   var video = document.getElementById("myVideo");
   //按0键选择要播放的本地视频
   function toggleFullScreen() {
@@ -22,7 +23,6 @@
     //fullscreen
   document.addEventListener("keydown", function(event) {
     if (event.keyCode == 48) {
-      toggleFullScreen();
       var input = document.createElement("input");
       input.type = "file";
       input.accept = "video/*";
