@@ -6,7 +6,7 @@
   var video = document.getElementById("myVideo");
   //按0键选择要播放的本地视频
   document.addEventListener("keydown", function(event) {
-    if (event.keyCode == 48) {
+    if (event.keyCode == 108) {
       var input = document.createElement("input");
       input.type = "file";
       input.accept = "video/*";
@@ -41,7 +41,7 @@
     video.style.top = y + "px";
   });
   // 按5键控制播放和暂停
-    if (event.keyCode == 53) { // 数字5键
+    if (event.keyCode == 106) { // 数字5键
       if (video.paused) {
         video.play();
       } else {
