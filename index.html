@@ -1,79 +1,87 @@
-<video id="myVideo" width="320" height="240" class="rotate-video">
+<video id="myVideo" width="320" height="240"  class="rotate-video" controls>
   <source src="" type="video/mp4">
-  您的浏览器不支持HTML5视频。
+  您的浏览器不支持 HTML5 video 标签。
 </video>
 <script>
+  //获取视频元素
   var video = document.getElementById("myVideo");
-  //按0键选择要播放的本地视频
+  //获取视频源
+  var source = video.getElementsByTagName("source")[0];
+  //定义一个数组存储本地视频路径
+  var videos = ["video1.mp4", "video2.mp4", "video3.mp4"];
+  //定义一个变量记录当前播放的视频索引
+  var index = 0;
+  
+  //添加键盘事件监听器
   document.addEventListener("keydown", function(event) {
-    if (event.keyCode == 106) {
-      var input = document.createElement("input");
-      input.type = "file";
-      input.accept = "video/*";
-      input.onchange = function() {
-        var file = this.files[0];
-        var url = URL.createObjectURL(file);
-        video.src = url;
+    //按0键选择要播放的本地视频
+    if (event.keyCode == 48) {
+      //更新视频源
+      source.src = videos[index];
+      //重新加载视频
+      video.load();
+      //自动播放
+      video.play();
+      //更新索引，循环播放
+      index = (index + 1) % videos.length;
+    }
+    //按方向键控制视频画面的移动
+    if (event.keyCode == 37) { //左箭头
+      //向左移动10像素
+      video.style.left = (parseInt(video.style.left) || 0) - 10 + "px";
+    }
+    if (event.keyCode == 38) { //上箭头
+      //向上移动10像素
+      video.style.top = (parseInt(video.style.top) || 0) - 10 + "px";
+    }
+    if (event.keyCode == 39) { //右箭头
+      //向右移动10像素
+      video.style.left = (parseInt(video.style.left) || 0) + 10 + "px";
+    }
+    if (event.keyCode == 40) { //下箭头
+      //向下移动10像素 
+      video.style.top = (parseInt(video.style.top) || 0) + 10 + "px";
+    }
+    
+    //按7,9键分别后退和快进15秒 
+    if (event.keyCode ==55){  	//7键 
+    	//后退15秒 
+    	video.currentTime -=15; 
+    	//如果超出范围，设置为0 
+    	if(video.currentTime <0){ 
+    		video.currentTime=0; 
+    	}    }
+    if (event.keyCode == 57) { //9键
+      //快进15秒
+      video.currentTime += 15;
+      //如果超出范围，设置为视频时长
+      if (video.currentTime > video.duration) {
+        video.currentTime = video.duration;
+      }
+    }
+
+    //按4，6分别控制缩小和放大视频画面
+    if (event.keyCode == 52) { //4键
+      //缩小10%
+      video.style.width = parseInt(video.style.width) * 0.9 + "px";
+      video.style.height = parseInt(video.style.height) * 0.9 + "px";
+    }
+    if (event.keyCode == 54) { //6键
+      //放大10%
+      video.style.width = parseInt(video.style.width) * 1.1 + "px";
+      video.style.height = parseInt(video.style.height) * 1.1 + "px";
+    }
+
+    //按*键控制播放和暂停
+    if (event.keyCode == 106) { //*键
+      //如果正在播放，暂停
+      if (!video.paused) {
+        video.pause();
+      } else {
+        //否则，继续播放
         video.play();
-      };
-      input.click();
+      }
     }
-  });
-  //可以用方向键控制视频画面的移动
-  document.addEventListener("keydown", function(event) {
-    var x = video.offsetLeft;
-    var y = video.offsetTop;
-    switch (event.keyCode) {
-      case 37: //左键
-        x -= 10;
-        break;
-      case 38: //上键
-        y -= 10;
-        break;
-      case 39: //右键
-        x += 10;
-        break;
-      case 40: //下键
-        y += 10;
-        break;
-    }
-    video.style.left = x + "px";
-    video.style.top = y + "px";
-  });
-    //按7,9键分别后退和快进15秒
-  document.addEventListener("keydown", function(event) {
-    switch (event.keyCode) {
-      case 55: //7键
-        video.currentTime -= 15;
-        break;
-      case 57: //9键
-        video.currentTime += 15;
-        break;
-    }
-  });
-  //按4,6键分别控制缩小和放大视频画面
-  document.addEventListener("keydown", function(event) {
-    var w = video.width;
-    var h = video.height;
-    switch (event.keyCode) {
-      case 52: //4键
-        w -= 10;
-        h -= 10 * h / w;
-        break;
-      case 54: //6键
-        w += 10;
-        h += 10 * h / w;
-        break;
-    }
-    video.width = w;
-    video.height = h;
-  });
-</script>
-<button id="fullscreen-btn">进入全屏</button>
-<script>
-  var btn = document.getElementById("fullscreen-btn");
-  btn.addEventListener("click", function() {
-    document.documentElement.requestFullscreen();
   });
 </script>
 <style>
