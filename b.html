@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Text Browser</title>
+</head>
+<body>
+	<textarea id="content" rows="20" cols="80"></textarea>
+	<input type="text" id="url" placeholder="Enter URL" size="60">
+	<button onclick="loadPage()">Go</button>
+	<script type="text/javascript">
+		function loadPage() {
+			var url = document.getElementById("url").value;
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", url, true);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					document.getElementById("content").value = xhr.responseText;
+				}
+			};
+			xhr.send();
+		}
+	</script>
+</body>
+</html>
