@@ -1,0 +1,44 @@
+body {
+
+  font-family: Arial, sans-serif;
+
+}
+
+h1 {
+
+  margin-bottom: 20px;
+
+}
+
+input[type="text"] {
+
+  width: 80%;
+
+  padding: 10px;
+
+  font-size: 16px;
+
+}
+
+button {
+
+  padding: 10px;
+
+  font-size: 16px;
+
+}
+
+pre {
+
+  margin-top: 20px;
+
+  padding: 10px;
+
+  white-space: pre-wrap;
+
+  word-wrap: break-word;
+
+  border: 1px solid gray;
+
+}
+
