@@ -1,74 +1,8 @@
 <html>
 <head>
-<style>
-body {
-  transform: rotate(90deg);
-  padding-top: 10%;
-}
-</style>
-<script>
-function selectVideo() {
-  var input = document.createElement("input");
-  input.type = "file";
-  input.accept = "video/*";
-  input.onchange = function() {
-    var file = this.files[0];
-    var url = URL.createObjectURL(file);
-    var video = document.getElementById("video");
-    video.src = url;
-    video.play();
-  };
-  input.click();
-}
-
-function rewindVideo() {
-  var video = document.getElementById("video");
-  video.currentTime -= 15;
-}
-
-function fastForwardVideo() {
-  var video = document.getElementById("video");
-  video.currentTime += 15;
-}
-
-function zoomOutVideo() {
-  var video = document.getElementById("video");
-  video.width -= 10;
-}
-
-function zoomInVideo() {
-  var video = document.getElementById("video");
-  video.width += 10;
-}
-
-function moveRightVideo() {
-  var video = document.getElementById("video");
-  video.style.marginLeft += "10px";
-}
-
-document.addEventListener("keydown", function(event) {
-   switch (event.keyCode) {
-     case 55: //7
-       rewindVideo();
-       break;
-     case 57: //9
-       fastForwardVideo();
-       break;
-     case 52: //4
-       zoomOutVideo();
-       break;
-     case 54: //6
-       zoomInVideo();
-       break;
-     case 48: //0
-       moveRightVideo();
-       break;  
-   }
-});
-</script>
+  <title>我的博客</title>
 </head>
-<video id="video" controls></video>
-<button onclick="selectVideo()">选择视频</button>
+<body>
 <p>按7键后退15秒，按9键快进15秒，按4键缩小视频画面，按6键放大视频画面，按0键向右移动视频画面。</p>
 </body>
 </html>
