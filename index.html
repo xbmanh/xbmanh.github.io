@@ -1,8 +1,543 @@
-<html>
-<head>
-  <title>我的博客</title>
+<html><head><base href="https://minecraft-search-engine.example.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CubeFinder</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  :root {
+    --primary-color: #3EB489; /* 薄荷色 */
+    --background-color: #FFFFFF; /* 白色背景 */
+    --text-color: #333;
+    --button-hover-color: #36A07B; /* 鼠标悬停时的深薄荷色 */
+    --filter-button-bg: #E8F5E9; /* 淡绿色背景 */
+    --selected-button-bg: #3EB489; /* 选中状态的背景色 */
+    --selected-button-color: #FFFFFF; /* 选中状态的文字颜色 */
+  }
+
+  body {
+    font-family: 'Minecraft', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .language-switch-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .language-switch {
+    background-color: transparent;
+    border: none;
+    color: var(--primary-color);
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .language-switch:hover {
+    color: var(--button-hover-color);
+  }
+
+  .language-switch .material-icons {
+    font-size: 24px;
+  }
+
+  .current-language {
+    margin-left: 10px;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+  }
+
+  .apps-icon {
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .apps-icon:hover {
+    color: var(--button-hover-color);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    width: 200px;
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  .search-form {
+    display: flex;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .search-input {
+    flex-grow: 1;
+    border: 2px solid var(--primary-color);
+    font-size: 1.2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+  }
+
+  .search-button {
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-button:hover {
+    background-color: var(--button-hover-color);
+  }
+
+  .filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin-top: 20px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .filter-button {
+    background-color: var(--filter-button-bg);
+    border: none;
+    color: var(--primary-color);
+    padding: 10px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 80px;
+    height: 80px;
+  }
+
+  .filter-button:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+  }
+
+  .filter-button.selected {
+    background-color: var(--selected-button-bg);
+    color: var(--selected-button-color);
+  }
+
+  .filter-button .material-icons {
+    font-size: 2rem;
+    margin-bottom: 5px;
+  }
+
+  .search-results, .homepage-content {
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .search-results {
+    display: none;
+  }
+
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    grid-auto-flow: dense;
+  }
+
+  .result-item, .resource-item {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .result-item:hover, .resource-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+  }
+
+  .result-image, .resource-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .result-title, .resource-title {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+  }
+
+  .result-description, .resource-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    flex-grow: 1;
+  }
+
+  .result-link, .resource-link {
+    font-size: 0.8rem;
+    color: #999;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+
+  .result-link:hover, .resource-link:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+
+  .homepage-section {
+    margin-bottom: 40px;
+    width: 100%;
+  }
+
+  .homepage-section h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 800px) {
+    .search-container {
+      width: 90%;
+    }
+
+    .search-input, .search-button {
+      font-size: 1rem;
+    }
+
+    .filter-buttons {
+      justify-content: flex-start;
+      overflow-x: auto;
+    }
+
+    .filter-button {
+      min-width: 70px;
+      height: 70px;
+      font-size: 0.75rem;
+    }
+
+    .filter-button .material-icons {
+      font-size: 1.5rem;
+    }
+
+    .masonry-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .logo {
+      width: 150px;
+    }
+  }
+
+  @font-face {
+    font-family: 'Minecraft';
+    src: url('https://db.onlinewebfonts.com/t/6ab539c6fc2b21ff0b149b3d06d7f97c.eot');
+    src: url('https://db.onlinewebfonts.com/t/6ab539c6fc2b21ff0b149b3d06d7f97c.eot?#iefix') format('embedded-opentype'),
+         url('https://db.onlinewebfonts.com/t/6ab539c6fc2b21ff0b149b3d06d7f97c.woff2') format('woff2'),
+         url('https://db.onlinewebfonts.com/t/6ab539c6fc2b21ff0b149b3d06d7f97c.woff') format('woff'),
+         url('https://db.onlinewebfonts.com/t/6ab539c6fc2b21ff0b149b3d06d7f97c.ttf') format('truetype'),
+         url('https://db.onlinewebfonts.com/t/6ab539c6fc2b21ff0b149b3d06d7f97c.svg#Minecraft') format('svg');
+  }
+</style>
 </head>
 <body>
-<p>按7键后退15秒，按9键快进15秒，按4键缩小视频画面，按6键放大视频画面，按0键向右移动视频画面。</p>
+  <div class="header">
+    <div class="language-switch-container">
+      <button class="language-switch" id="languageSwitch">
+        <span class="material-icons">language</span>
+      </button>
+      <span class="current-language" id="currentLanguage">简体中文</span>
+    </div>
+    <span class="material-icons apps-icon">apps</span>
+  </div>
+
+  <div class="container">
+    <div class="search-container">
+      <div class="logo-container">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+          <defs>
+            <clipPath id="rounded-corners">
+              <rect x="0" y="0" width="200" height="80" rx="10" ry="10" />
+            </clipPath>
+          </defs>
+          <g clip-path="url(#rounded-corners)">
+            <rect width="200" height="80" fill="#3EB489"/>
+            <text x="10" y="50" font-family="Minecraft, Arial" font-size="24" fill="#FFFFFF">CubeFinder</text>
+            <rect x="160" y="20" width="20" height="20" fill="#8B4513"/>
+            <rect x="165" y="25" width="5" height="5" fill="#FFFFFF"/>
+            <rect x="170" y="30" width="5" height="5" fill="#FFFFFF"/>
+          </g>
+        </svg>
+      </div>
+      <form class="search-form" action="/search" method="get">
+        <input type="text" class="search-input" name="q" placeholder="搜索 Minecraft 资源..." required>
+        <button type="submit" class="search-button">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+
+      <div class="filter-buttons">
+        <button class="filter-button selected" data-filter="maps">
+          <span class="material-icons">map</span>
+          地图
+        </button>
+        <button class="filter-button" data-filter="servers">
+          <span class="material-icons">dns</span>
+          服务器
+        </button>
+        <button class="filter-button" data-filter="mods">
+          <span class="material-icons">extension</span>
+          Mods
+        </button>
+        <button class="filter-button" data-filter="plugins">
+          <span class="material-icons">power</span>
+          插件
+        </button>
+        <button class="filter-button" data-filter="skins">
+          <span class="material-icons">face</span>
+          皮肤
+        </button>
+        <button class="filter-button" data-filter="textures">
+          <span class="material-icons">texture</span>
+          材质包
+        </button>
+      </div>
+    </div>
+
+    <div class="homepage-content" id="homepageContent">
+      <!-- 首页内容保持不变 -->
+    </div>
+
+    <div class="search-results" id="searchResults">
+      <div class="masonry-grid" id="masonryGrid">
+        <!-- 搜索结果将在这里动态生成 -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector('.search-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const query = document.querySelector('.search-input').value;
+      showSearchResults(query);
+    });
+
+    const languages = ['简体中文', '繁體中文', 'English', 'Español', 'Français', 'Deutsch'];
+    let currentLanguageIndex = 0;
+
+    function updateLanguage(lang) {
+      document.getElementById('currentLanguage').textContent = lang;
+      
+      const translations = {
+        '简体中文': {
+          placeholder: '搜索 Minecraft 资源...',
+          title: 'CubeFinder',
+          filters: ['地图', '服务器', 'Mods', '插件', '皮肤', '材质包'],
+          logoText: ['CubeFinder']
+        },
+        '繁體中文': {
+          placeholder: '搜尋 Minecraft 資源...',
+          title: 'CubeFinder',
+          filters: ['地圖', '伺服器', 'Mods', '插件', '皮膚', '材質包'],
+          logoText: ['CubeFinder']
+        },
+        'English': {
+          placeholder: 'Search Minecraft resources...',
+          title: 'CubeFinder',
+          filters: ['Maps', 'Servers', 'Mods', 'Plugins', 'Skins', 'Texture Packs'],
+          logoText: ['CubeFinder']
+        },
+        'Español': {
+          placeholder: 'Buscar recursos de Minecraft...',
+          title: 'CubeFinder',
+          filters: ['Mapas', 'Servidores', 'Mods', 'Plugins', 'Aspectos', 'Paquetes de texturas'],
+          logoText: ['CubeFinder']
+        },
+        'Français': {
+          placeholder: 'Rechercher des ressources Minecraft...',
+          title: 'CubeFinder',
+          filters: ['Cartes', 'Serveurs', 'Mods', 'Plugins', 'Skins', 'Packs de textures'],
+          logoText: ['CubeFinder']
+        },
+        'Deutsch': {
+          placeholder: 'Minecraft-Ressourcen suchen...',
+          title: 'CubeFinder',
+          filters: ['Karten', 'Server', 'Mods', 'Plugins', 'Skins', 'Texturpakete'],
+          logoText: ['CubeFinder']
+        }
+      };
+
+      const currentTranslation = translations[lang];
+      document.querySelector('.search-input').placeholder = currentTranslation.placeholder;
+      document.title = currentTranslation.title;
+      
+      const filterButtons = document.querySelectorAll('.filter-button');
+      filterButtons.forEach((button, index) => {
+        const iconElement = button.querySelector('.material-icons');
+        button.innerHTML = `${iconElement.outerHTML}${currentTranslation.filters[index]}`;
+      });
+
+      // 更新 logo 文字
+      const logoTexts = document.querySelectorAll('.logo text');
+      logoTexts[0].textContent = currentTranslation.logoText[0];
+    }
+
+    document.getElementById('languageSwitch').addEventListener('click', function() {
+      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
+      updateLanguage(languages[currentLanguageIndex]);
+    });
+
+    // 初始化为简体中文
+    updateLanguage('简体中文');
+
+    // 添加筛选按钮的点击事件
+    document.querySelectorAll('.filter-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const filter = this.dataset.filter;
+        
+        // 移除所有按钮的选中状态
+        document.querySelectorAll('.filter-button').forEach(btn => {
+          btn.classList.remove('selected');
+        });
+        
+        // 添加当前按钮的选中状态
+        this.classList.add('selected');
+
+        if (filter === 'maps') {
+          document.getElementById('homepageContent').style.display = 'block';
+          document.getElementById('searchResults').style.display = 'none';
+        } else {
+          document.getElementById('homepageContent').style.display = 'none';
+          document.getElementById('searchResults').style.display = 'block';
+          showFilterResults(filter);
+        }
+      });
+    });
+
+    function showSearchResults(query) {
+      document.getElementById('homepageContent').style.display = 'none';
+      const searchResults = document.getElementById('searchResults');
+      const masonryGrid = document.getElementById('masonryGrid');
+      searchResults.style.display = 'block';
+      masonryGrid.innerHTML = ''; // 清空之前的搜索结果
+
+      // 这里模拟搜索结果，实际应用中应该从服务器获取结果
+      const mockResults = [
+        { title: 'Amazing Minecraft Server', description: '一个令人惊叹的Minecraft服务器，提供独特的游戏体验。', link: 'https://example.com/server1', image: 'https://via.placeholder.com/300x200.png?text=Server+Image' },
+        { title: 'Epic Survival Mod', description: '增加了许多新的生存元素，让你的Minecraft之旅更加刺激。', link: 'https://example.com/mod1', image: 'https://via.placeholder.com/300x200.png?text=Mod+Image' },
+        { title: 'Awesome Texture Pack', description: '为Minecraft世界带来全新的视觉体验。', link: 'https://example.com/texture1', image: 'https://via.placeholder.com/300x200.png?text=Texture+Pack+Image' },
+        { title: 'Cool Player Skin', description: '让你的角色看起来与众不同。', link: 'https://example.com/skin1', image: 'https://via.placeholder.com/300x200.png?text=Skin+Image' },
+        { title: 'Useful Redstone Plugin', description: '为红石系统添加了更多功能，让你的建筑更智能。', link: 'https://example.com/plugin1', image: 'https://via.placeholder.com/300x200.png?text=Plugin+Image' },
+        { title: 'Adventure Map Collection', description: '探索精心制作的冒险地图，体验惊心动魄的故事情节。', link: 'https://example.com/maps1', image: 'https://via.placeholder.com/300x200.png?text=Map+Image' },
+        { title: 'Custom Crafting Mod', description: '添加数百种新的合成配方，扩展你的游戏体验。', link: 'https://example.com/mod2', image: 'https://via.placeholder.com/300x200.png?text=Crafting+Mod+Image' },
+        { title: 'Medieval Texture Pack', description: '将你的Minecraft世界变成中世纪风格的王国。', link: 'https://example.com/texture2', image: 'https://via.placeholder.com/300x200.png?text=Medieval+Texture+Image' }
+      ];
+
+      mockResults.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.className = 'result-item';
+        resultElement.innerHTML = `
+          <img class="result-image" src="${result.image}" alt="${result.title}">
+          <h3 class="result-title">${result.title}</h3>
+          <p class="result-description">${result.description}</p>
+          <a href="${result.link}" class="result-link" target="_blank">了解更多</a>
+        `;
+        masonryGrid.appendChild(resultElement);
+      });
+    }
+
+    function showFilterResults(filter) {
+      const masonryGrid = document.getElementById('masonryGrid');
+      masonryGrid.innerHTML = ''; // 清空之前的结果
+
+      // 这里可以根据不同的筛选条件显示不同的结果
+      // 为了演示，我们使用相同的模拟数据
+      const mockResults = [
+        { title: `${filter} Item 1`, description: `这是一个关于 ${filter} 的项目。`, link: `https://example.com/${filter}1`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+1` },
+        { title: `${filter} Item 2`, description: `另一个关于 ${filter} 的精彩内容。`, link: `https://example.com/${filter}2`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+2` },
+        { title: `${filter} Item 3`, description: `探索更多 ${filter} 的可能性。`, link: `https://example.com/${filter}3`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+3` },
+        { title: `${filter} Item 4`, description: `发现 ${filter} 的新玩法。`, link: `https://example.com/${filter}4`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+4` }
+      ];
+
+      mockResults.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.className = 'result-item';
+        resultElement.innerHTML = `
+          <img class="result-image" src="${result.image}" alt="${result.title}">
+          <h3 class="result-title">${result.title}</h3>
+          <p class="result-description">${result.description}</p>
+          <a href="${result.link}" class="result-link" target="_blank">了解更多</a>
+        `;
+        masonryGrid.appendChild(resultElement);
+      });
+    }
+  </script>
 </body>
 </html>
