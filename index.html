@@ -88,9 +88,6 @@
     width: 100%;
     max-width: 800px;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
   .logo-container {
@@ -313,7 +310,7 @@
       <button class="language-switch" id="languageSwitch">
         <span class="material-icons">language</span>
       </button>
-      <span class="current-language" id="currentLanguage">简体中文</span>
+      <span class="current-language" id="currentLanguage">&#x7b80;&#x4f53;&#x4e2d;&#x6587;</span>
     </div>
     <span class="material-icons apps-icon">apps</span>
   </div>
@@ -324,7 +321,7 @@
         <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
           <defs>
             <clipPath id="rounded-corners">
-              <rect x="0" y="0" width="200" height="80" rx="10" ry="10" />
+              <rect x="0" y="0" width="200" height="80" rx="10" ry="10"/>
             </clipPath>
           </defs>
           <g clip-path="url(#rounded-corners)">
@@ -337,7 +334,7 @@
         </svg>
       </div>
       <form class="search-form" action="/search" method="get">
-        <input type="text" class="search-input" name="q" placeholder="搜索 Minecraft 资源..." required>
+        <input type="text" class="search-input" name="q" placeholder="&#x641c;&#x7d22; Minecraft &#x8d44;&#x6e90;..." required>
         <button type="submit" class="search-button">
           <span class="material-icons">search</span>
         </button>
@@ -346,11 +343,11 @@
       <div class="filter-buttons">
         <button class="filter-button selected" data-filter="maps">
           <span class="material-icons">map</span>
-          地图
+          &#x5730;&#x56fe;
         </button>
         <button class="filter-button" data-filter="servers">
           <span class="material-icons">dns</span>
-          服务器
+          &#x670d;&#x52a1;&#x5668;
         </button>
         <button class="filter-button" data-filter="mods">
           <span class="material-icons">extension</span>
@@ -358,15 +355,15 @@
         </button>
         <button class="filter-button" data-filter="plugins">
           <span class="material-icons">power</span>
-          插件
+          &#x63d2;&#x4ef6;
         </button>
         <button class="filter-button" data-filter="skins">
           <span class="material-icons">face</span>
-          皮肤
+          &#x76ae;&#x80a4;
         </button>
         <button class="filter-button" data-filter="textures">
           <span class="material-icons">texture</span>
-          材质包
+          &#x6750;&#x8d28;&#x5305;
         </button>
       </div>
     </div>
@@ -382,162 +379,180 @@
     </div>
   </div>
 
-  <script>
-    document.querySelector('.search-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const query = document.querySelector('.search-input').value;
-      showSearchResults(query);
-    });
-
-    const languages = ['简体中文', '繁體中文', 'English', 'Español', 'Français', 'Deutsch'];
-    let currentLanguageIndex = 0;
-
-    function updateLanguage(lang) {
-      document.getElementById('currentLanguage').textContent = lang;
-      
-      const translations = {
-        '简体中文': {
-          placeholder: '搜索 Minecraft 资源...',
-          title: 'CubeFinder',
-          filters: ['地图', '服务器', 'Mods', '插件', '皮肤', '材质包'],
-          logoText: ['CubeFinder']
-        },
-        '繁體中文': {
-          placeholder: '搜尋 Minecraft 資源...',
-          title: 'CubeFinder',
-          filters: ['地圖', '伺服器', 'Mods', '插件', '皮膚', '材質包'],
-          logoText: ['CubeFinder']
-        },
-        'English': {
-          placeholder: 'Search Minecraft resources...',
-          title: 'CubeFinder',
-          filters: ['Maps', 'Servers', 'Mods', 'Plugins', 'Skins', 'Texture Packs'],
-          logoText: ['CubeFinder']
-        },
-        'Español': {
-          placeholder: 'Buscar recursos de Minecraft...',
-          title: 'CubeFinder',
-          filters: ['Mapas', 'Servidores', 'Mods', 'Plugins', 'Aspectos', 'Paquetes de texturas'],
-          logoText: ['CubeFinder']
-        },
-        'Français': {
-          placeholder: 'Rechercher des ressources Minecraft...',
-          title: 'CubeFinder',
-          filters: ['Cartes', 'Serveurs', 'Mods', 'Plugins', 'Skins', 'Packs de textures'],
-          logoText: ['CubeFinder']
-        },
-        'Deutsch': {
-          placeholder: 'Minecraft-Ressourcen suchen...',
-          title: 'CubeFinder',
-          filters: ['Karten', 'Server', 'Mods', 'Plugins', 'Skins', 'Texturpakete'],
-          logoText: ['CubeFinder']
-        }
-      };
-
-      const currentTranslation = translations[lang];
-      document.querySelector('.search-input').placeholder = currentTranslation.placeholder;
-      document.title = currentTranslation.title;
-      
-      const filterButtons = document.querySelectorAll('.filter-button');
-      filterButtons.forEach((button, index) => {
-        const iconElement = button.querySelector('.material-icons');
-        button.innerHTML = `${iconElement.outerHTML}${currentTranslation.filters[index]}`;
-      });
-
-      // 更新 logo 文字
-      const logoTexts = document.querySelectorAll('.logo text');
-      logoTexts[0].textContent = currentTranslation.logoText[0];
+  <script>document.querySelector('.search-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const query = document.querySelector('.search-input').value;
+  showSearchResults(query);
+});
+const languages = ['简体中文', '繁體中文', 'English', 'Español', 'Français', 'Deutsch'];
+let currentLanguageIndex = 0;
+function updateLanguage(lang) {
+  document.getElementById('currentLanguage').textContent = lang;
+  const translations = {
+    '简体中文': {
+      placeholder: '搜索 Minecraft 资源...',
+      title: 'CubeFinder',
+      filters: ['地图', '服务器', 'Mods', '插件', '皮肤', '材质包'],
+      logoText: ['CubeFinder']
+    },
+    '繁體中文': {
+      placeholder: '搜尋 Minecraft 資源...',
+      title: 'CubeFinder',
+      filters: ['地圖', '伺服器', 'Mods', '插件', '皮膚', '材質包'],
+      logoText: ['CubeFinder']
+    },
+    'English': {
+      placeholder: 'Search Minecraft resources...',
+      title: 'CubeFinder',
+      filters: ['Maps', 'Servers', 'Mods', 'Plugins', 'Skins', 'Texture Packs'],
+      logoText: ['CubeFinder']
+    },
+    'Español': {
+      placeholder: 'Buscar recursos de Minecraft...',
+      title: 'CubeFinder',
+      filters: ['Mapas', 'Servidores', 'Mods', 'Plugins', 'Aspectos', 'Paquetes de texturas'],
+      logoText: ['CubeFinder']
+    },
+    'Français': {
+      placeholder: 'Rechercher des ressources Minecraft...',
+      title: 'CubeFinder',
+      filters: ['Cartes', 'Serveurs', 'Mods', 'Plugins', 'Skins', 'Packs de textures'],
+      logoText: ['CubeFinder']
+    },
+    'Deutsch': {
+      placeholder: 'Minecraft-Ressourcen suchen...',
+      title: 'CubeFinder',
+      filters: ['Karten', 'Server', 'Mods', 'Plugins', 'Skins', 'Texturpakete'],
+      logoText: ['CubeFinder']
     }
-
-    document.getElementById('languageSwitch').addEventListener('click', function() {
-      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
-      updateLanguage(languages[currentLanguageIndex]);
+  };
+  const currentTranslation = translations[lang];
+  document.querySelector('.search-input').placeholder = currentTranslation.placeholder;
+  document.title = currentTranslation.title;
+  const filterButtons = document.querySelectorAll('.filter-button');
+  filterButtons.forEach((button, index) => {
+    const iconElement = button.querySelector('.material-icons');
+    button.innerHTML = `${iconElement.outerHTML}${currentTranslation.filters[index]}`;
+  });
+  const logoTexts = document.querySelectorAll('.logo text');
+  logoTexts[0].textContent = currentTranslation.logoText[0];
+}
+document.getElementById('languageSwitch').addEventListener('click', function () {
+  currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
+  updateLanguage(languages[currentLanguageIndex]);
+});
+updateLanguage('简体中文');
+document.querySelectorAll('.filter-button').forEach(button => {
+  button.addEventListener('click', function () {
+    const filter = this.dataset.filter;
+    document.querySelectorAll('.filter-button').forEach(btn => {
+      btn.classList.remove('selected');
     });
-
-    // 初始化为简体中文
-    updateLanguage('简体中文');
-
-    // 添加筛选按钮的点击事件
-    document.querySelectorAll('.filter-button').forEach(button => {
-      button.addEventListener('click', function() {
-        const filter = this.dataset.filter;
-        
-        // 移除所有按钮的选中状态
-        document.querySelectorAll('.filter-button').forEach(btn => {
-          btn.classList.remove('selected');
-        });
-        
-        // 添加当前按钮的选中状态
-        this.classList.add('selected');
-
-        if (filter === 'maps') {
-          document.getElementById('homepageContent').style.display = 'block';
-          document.getElementById('searchResults').style.display = 'none';
-        } else {
-          document.getElementById('homepageContent').style.display = 'none';
-          document.getElementById('searchResults').style.display = 'block';
-          showFilterResults(filter);
-        }
-      });
-    });
-
-    function showSearchResults(query) {
+    this.classList.add('selected');
+    if (filter === 'maps') {
+      document.getElementById('homepageContent').style.display = 'block';
+      document.getElementById('searchResults').style.display = 'none';
+    } else {
       document.getElementById('homepageContent').style.display = 'none';
-      const searchResults = document.getElementById('searchResults');
-      const masonryGrid = document.getElementById('masonryGrid');
-      searchResults.style.display = 'block';
-      masonryGrid.innerHTML = ''; // 清空之前的搜索结果
-
-      // 这里模拟搜索结果，实际应用中应该从服务器获取结果
-      const mockResults = [
-        { title: 'Amazing Minecraft Server', description: '一个令人惊叹的Minecraft服务器，提供独特的游戏体验。', link: 'https://example.com/server1', image: 'https://via.placeholder.com/300x200.png?text=Server+Image' },
-        { title: 'Epic Survival Mod', description: '增加了许多新的生存元素，让你的Minecraft之旅更加刺激。', link: 'https://example.com/mod1', image: 'https://via.placeholder.com/300x200.png?text=Mod+Image' },
-        { title: 'Awesome Texture Pack', description: '为Minecraft世界带来全新的视觉体验。', link: 'https://example.com/texture1', image: 'https://via.placeholder.com/300x200.png?text=Texture+Pack+Image' },
-        { title: 'Cool Player Skin', description: '让你的角色看起来与众不同。', link: 'https://example.com/skin1', image: 'https://via.placeholder.com/300x200.png?text=Skin+Image' },
-        { title: 'Useful Redstone Plugin', description: '为红石系统添加了更多功能，让你的建筑更智能。', link: 'https://example.com/plugin1', image: 'https://via.placeholder.com/300x200.png?text=Plugin+Image' },
-        { title: 'Adventure Map Collection', description: '探索精心制作的冒险地图，体验惊心动魄的故事情节。', link: 'https://example.com/maps1', image: 'https://via.placeholder.com/300x200.png?text=Map+Image' },
-        { title: 'Custom Crafting Mod', description: '添加数百种新的合成配方，扩展你的游戏体验。', link: 'https://example.com/mod2', image: 'https://via.placeholder.com/300x200.png?text=Crafting+Mod+Image' },
-        { title: 'Medieval Texture Pack', description: '将你的Minecraft世界变成中世纪风格的王国。', link: 'https://example.com/texture2', image: 'https://via.placeholder.com/300x200.png?text=Medieval+Texture+Image' }
-      ];
-
-      mockResults.forEach(result => {
-        const resultElement = document.createElement('div');
-        resultElement.className = 'result-item';
-        resultElement.innerHTML = `
+      document.getElementById('searchResults').style.display = 'block';
+      showFilterResults(filter);
+    }
+  });
+});
+function showSearchResults(query) {
+  document.getElementById('homepageContent').style.display = 'none';
+  const searchResults = document.getElementById('searchResults');
+  const masonryGrid = document.getElementById('masonryGrid');
+  searchResults.style.display = 'block';
+  masonryGrid.innerHTML = '';
+  const mockResults = [{
+    title: 'Amazing Minecraft Server',
+    description: '一个令人惊叹的Minecraft服务器，提供独特的游戏体验。',
+    link: 'https://example.com/server1',
+    image: 'https://via.placeholder.com/300x200.png?text=Server+Image'
+  }, {
+    title: 'Epic Survival Mod',
+    description: '增加了许多新的生存元素，让你的Minecraft之旅更加刺激。',
+    link: 'https://example.com/mod1',
+    image: 'https://via.placeholder.com/300x200.png?text=Mod+Image'
+  }, {
+    title: 'Awesome Texture Pack',
+    description: '为Minecraft世界带来全新的视觉体验。',
+    link: 'https://example.com/texture1',
+    image: 'https://via.placeholder.com/300x200.png?text=Texture+Pack+Image'
+  }, {
+    title: 'Cool Player Skin',
+    description: '让你的角色看起来与众不同。',
+    link: 'https://example.com/skin1',
+    image: 'https://via.placeholder.com/300x200.png?text=Skin+Image'
+  }, {
+    title: 'Useful Redstone Plugin',
+    description: '为红石系统添加了更多功能，让你的建筑更智能。',
+    link: 'https://example.com/plugin1',
+    image: 'https://via.placeholder.com/300x200.png?text=Plugin+Image'
+  }, {
+    title: 'Adventure Map Collection',
+    description: '探索精心制作的冒险地图，体验惊心动魄的故事情节。',
+    link: 'https://example.com/maps1',
+    image: 'https://via.placeholder.com/300x200.png?text=Map+Image'
+  }, {
+    title: 'Custom Crafting Mod',
+    description: '添加数百种新的合成配方，扩展你的游戏体验。',
+    link: 'https://example.com/mod2',
+    image: 'https://via.placeholder.com/300x200.png?text=Crafting+Mod+Image'
+  }, {
+    title: 'Medieval Texture Pack',
+    description: '将你的Minecraft世界变成中世纪风格的王国。',
+    link: 'https://example.com/texture2',
+    image: 'https://via.placeholder.com/300x200.png?text=Medieval+Texture+Image'
+  }];
+  mockResults.forEach(result => {
+    const resultElement = document.createElement('div');
+    resultElement.className = 'result-item';
+    resultElement.innerHTML = `
           <img class="result-image" src="${result.image}" alt="${result.title}">
           <h3 class="result-title">${result.title}</h3>
           <p class="result-description">${result.description}</p>
           <a href="${result.link}" class="result-link" target="_blank">了解更多</a>
         `;
-        masonryGrid.appendChild(resultElement);
-      });
-    }
-
-    function showFilterResults(filter) {
-      const masonryGrid = document.getElementById('masonryGrid');
-      masonryGrid.innerHTML = ''; // 清空之前的结果
-
-      // 这里可以根据不同的筛选条件显示不同的结果
-      // 为了演示，我们使用相同的模拟数据
-      const mockResults = [
-        { title: `${filter} Item 1`, description: `这是一个关于 ${filter} 的项目。`, link: `https://example.com/${filter}1`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+1` },
-        { title: `${filter} Item 2`, description: `另一个关于 ${filter} 的精彩内容。`, link: `https://example.com/${filter}2`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+2` },
-        { title: `${filter} Item 3`, description: `探索更多 ${filter} 的可能性。`, link: `https://example.com/${filter}3`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+3` },
-        { title: `${filter} Item 4`, description: `发现 ${filter} 的新玩法。`, link: `https://example.com/${filter}4`, image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+4` }
-      ];
-
-      mockResults.forEach(result => {
-        const resultElement = document.createElement('div');
-        resultElement.className = 'result-item';
-        resultElement.innerHTML = `
+    masonryGrid.appendChild(resultElement);
+  });
+}
+function showFilterResults(filter) {
+  const masonryGrid = document.getElementById('masonryGrid');
+  masonryGrid.innerHTML = '';
+  const mockResults = [{
+    title: `${filter} Item 1`,
+    description: `这是一个关于 ${filter} 的项目。`,
+    link: `https://example.com/${filter}1`,
+    image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+1`
+  }, {
+    title: `${filter} Item 2`,
+    description: `另一个关于 ${filter} 的精彩内容。`,
+    link: `https://example.com/${filter}2`,
+    image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+2`
+  }, {
+    title: `${filter} Item 3`,
+    description: `探索更多 ${filter} 的可能性。`,
+    link: `https://example.com/${filter}3`,
+    image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+3`
+  }, {
+    title: `${filter} Item 4`,
+    description: `发现 ${filter} 的新玩法。`,
+    link: `https://example.com/${filter}4`,
+    image: `https://via.placeholder.com/300x200.png?text=${filter}+Image+4`
+  }];
+  mockResults.forEach(result => {
+    const resultElement = document.createElement('div');
+    resultElement.className = 'result-item';
+    resultElement.innerHTML = `
           <img class="result-image" src="${result.image}" alt="${result.title}">
           <h3 class="result-title">${result.title}</h3>
           <p class="result-description">${result.description}</p>
           <a href="${result.link}" class="result-link" target="_blank">了解更多</a>
         `;
-        masonryGrid.appendChild(resultElement);
-      });
-    }
-  </script>
+    masonryGrid.appendChild(resultElement);
+  });
+}</script>
 </body>
 </html>
